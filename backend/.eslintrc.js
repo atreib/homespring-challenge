@@ -13,6 +13,14 @@ module.exports = {
   rules: {
     'prettier/prettier': 'error',
     'class-methods-use-this': 'off',
+    'import/prefer-default-export': 'off',
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        ts: 'never',
+      },
+    ],
   },
   settings: {
     'import/resolver': {
