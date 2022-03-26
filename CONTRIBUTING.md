@@ -47,6 +47,6 @@ As said before, your pull-request must check all items from the done criteria in
 
 - [ ] The app's version was increased
 - [ ] All the automated tests were run and are passing
-- [ ] New tests were created in order to cover this branch's development (at least 60% od coverage)
+- [ ] New tests were created in order to cover this branch's development (at least 60% of coverage)
 - [ ] The documentation was updated
 - [ ] I've provided every information required in order to review this pull-request
