@@ -3,13 +3,13 @@ import axios from 'axios';
 import { IBooksRepository } from '../../../domain/contracts/books-repository';
 import { Book } from '../../../domain/models/book';
 
-export const toBook = (googleBook: any) => {
+export const toBook = (googleBook: any): Book => {
   const postingYear = googleBook.volumeInfo?.publishedDate
     ? new Date(googleBook.volumeInfo?.publishedDate).getFullYear()
     : undefined;
 
   return {
-    picture: googleBook.volumeInfo?.imageLinks?.thumbnail ?? undefined,
+    picture: googleBook.volumeInfo?.imageLinks?.thumbnail ?? '',
     authors: googleBook.volumeInfo?.authors ?? ['Unknown author'],
     categories: googleBook.volumeInfo?.categories ?? [],
     title: googleBook.volumeInfo?.title ?? 'Unknown title',
