@@ -264,9 +264,28 @@ describe('Google Books API as Books Repository Test Suite', () => {
     expect(spy).toHaveBeenCalledWith(expect.stringContaining(googleBooksApiV1));
   });
 
-  it('Should return the result from Google Books API', async () => {
-    const { sut } = makeSut();
-    const response = await sut.get();
-    expect(response).toEqual(AXIOS_RESULT);
+  it.todo('Should return the result from Google Books API');
+
+  it.todo('Should return empty array if Google Books API returns empty');
+
+  describe("Google Books API result's mapping", () => {
+    it.todo('Should correctly map the picture property');
+    it.todo('Should set picture as undefined if not provided');
+    it.todo('Should correctly map the authors property');
+    it.todo('Should set authors as Unknown if not provided');
+    it.todo('Should correctly map the categories property');
+    it.todo('Should set categories as empty array if not provided');
+    it.todo('Should correctly map the title property');
+    it.todo('Should set title as Unknown if not provided');
+    it.todo('Should correctly map the rating property');
+    it.todo('Should set rating as 0 if not provided');
+    it.todo('Should correctly map the pagesCount property');
+    it.todo('Should set pagesCount as 0 if not provided');
+    it.todo('Should correctly map the postingYear property');
+    it.todo('Should set postingYear as 0 if not provided');
+    it.todo('Should correctly map the publisher property');
+    it.todo('Should set publisher as Unknown if not provided');
+    it.todo('Should correctly map the description property');
+    it.todo('Should set description as empty if not provided');
   });
 });
