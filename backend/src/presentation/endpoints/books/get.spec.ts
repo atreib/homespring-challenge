@@ -68,4 +68,6 @@ describe('Get Books Endpoint', () => {
       body: expected,
     });
   });
+
+  it.todo('Should throw 500 if an unexpected error occurs');
 });
