@@ -104,4 +104,15 @@ describe('Get Books Endpoint', () => {
     });
     expect(spy).toHaveBeenCalledWith({ page: 2 });
   });
+
+  it('Should provide optional size query to Get Books Service', async () => {
+    const { sut, getBooksServiceStub } = makeSut();
+    const spy = jest.spyOn(getBooksServiceStub, 'handle');
+    await sut.handle({
+      query: {
+        size: 5,
+      },
+    });
+    expect(spy).toHaveBeenCalledWith({ size: 5 });
+  });
 });
