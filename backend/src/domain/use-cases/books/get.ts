@@ -4,6 +4,7 @@ import { Paginated } from '../pagination';
 export interface IGetBooksServiceDTO {
   search?: string;
   page?: number;
+  size?: number;
 }
 
 export interface IGetBooksService {

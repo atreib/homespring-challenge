@@ -10,7 +10,7 @@ export class GetBooksService implements IGetBooksService {
     this.booksRepository = _booksRepository;
   }
 
-  async handle({ search = 'flowers', page = 1 }: IGetBooksServiceDTO): Promise<Paginated<Book>> {
-    return this.booksRepository.get(search, page);
+  async handle({ search = 'flowers', page = 1, size = 5 }: IGetBooksServiceDTO): Promise<Paginated<Book>> {
+    return this.booksRepository.get(search, page, size);
   }
 }
