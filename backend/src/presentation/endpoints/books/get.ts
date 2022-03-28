@@ -1,5 +1,5 @@
 import { IGetBooksService } from '../../../domain/use-cases/books/get';
-import { InternalServerError } from '../../errors';
+import { InternalServerError, InvalidParameter } from '../../errors';
 import { IHttpRequest, IHttpResponse, IHttpService } from '../../protocols/http';
 
 export class GetBooksEndpoint implements IHttpService {
@@ -12,6 +12,9 @@ export class GetBooksEndpoint implements IHttpService {
   async handle(request: IHttpRequest): Promise<IHttpResponse> {
     try {
       const { search, page, size } = request.query ?? { search: undefined, page: undefined, size: undefined };
+
+      if (size && size > 40) return { status: 400, body: new InvalidParameter('size') };
+
       const books = await this.getBooksService.handle({
         search,
         page,
