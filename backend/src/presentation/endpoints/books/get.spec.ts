@@ -1,5 +1,6 @@
 import { Book } from '../../../domain/models/book';
 import { IGetBooksService } from '../../../domain/use-cases/books/get';
+import { InternalServerError } from '../../errors';
 import { GetBooksEndpoint } from './get';
 
 interface ISutTypes {
@@ -69,5 +70,15 @@ describe('Get Books Endpoint', () => {
     });
   });
 
-  it.todo('Should throw 500 if an unexpected error occurs');
+  it('Should throw 500 if an unexpected error occurs', async () => {
+    const { sut, getBooksServiceStub } = makeSut();
+    jest.spyOn(getBooksServiceStub, 'handle').mockImplementationOnce(() => {
+      throw new Error();
+    });
+    const result = await sut.handle();
+    expect(result).toEqual({
+      status: 500,
+      body: new InternalServerError(),
+    });
+  });
 });
