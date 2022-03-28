@@ -13,7 +13,8 @@ export class GoogleBooksRepository implements IBooksRepository {
   }
 
   async get(): Promise<Book[]> {
-    await axios.get(`${this.apiKey}maxResults=${this.pageLimit}`);
+    const url = `https://www.googleapis.com/books/v1/volumes?key=${this.apiKey}&maxResults=${this.pageLimit}`;
+    await axios.get(url);
     return [] as Book[];
   }
 }
