@@ -268,42 +268,42 @@ describe('Google Books API as Books Repository Test Suite', () => {
   it('Should fetch Google Books API using Axios GET', async () => {
     const spy = jest.spyOn(axios, 'get');
     const { sut } = makeSut();
-    await sut.get();
+    await sut.get('any');
     expect(spy).toHaveBeenCalled();
   });
 
   it('Should fetch using the injected Api Key', async () => {
     const spy = jest.spyOn(axios, 'get');
     const { sut, apiKey } = makeSut();
-    await sut.get();
+    await sut.get('any');
     expect(spy).toHaveBeenCalledWith(expect.stringContaining(apiKey));
   });
 
   it('Should fetch using the injected limit per page', async () => {
     const spy = jest.spyOn(axios, 'get');
     const { sut, pageLimit } = makeSut();
-    await sut.get();
+    await sut.get('any');
     expect(spy).toHaveBeenCalledWith(expect.stringContaining(`maxResults=${pageLimit}`));
   });
 
   it('Should fetch from the v1 of Google Books API', async () => {
     const spy = jest.spyOn(axios, 'get');
     const { sut } = makeSut();
-    await sut.get();
+    await sut.get('any');
     const googleBooksApiV1 = 'https://www.googleapis.com/books/v1/volumes?';
     expect(spy).toHaveBeenCalledWith(expect.stringContaining(googleBooksApiV1));
   });
 
   it('Should return the mapped result from Google Books API', async () => {
     const { sut } = makeSut();
-    const response = await sut.get();
+    const response = await sut.get('any');
     expect(response).toEqual(AXIOS_RESULT_MAPPED);
   });
 
   it('Should return empty array if Google Books API returns undefined', async () => {
     jest.spyOn(axios, 'get').mockResolvedValueOnce({ status: 400, data: undefined });
     const { sut } = makeSut();
-    const response = await sut.get();
+    const response = await sut.get('any');
     expect(response).toEqual([]);
   });
 

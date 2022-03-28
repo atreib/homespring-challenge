@@ -31,8 +31,8 @@ export class GoogleBooksRepository implements IBooksRepository {
     this.pageLimit = _pageLimit;
   }
 
-  async get(): Promise<Book[]> {
-    const url = `https://www.googleapis.com/books/v1/volumes?q=flowers&key=${this.apiKey}&maxResults=${this.pageLimit}`;
+  async get(search: string): Promise<Book[]> {
+    const url = `https://www.googleapis.com/books/v1/volumes?q=${search}&key=${this.apiKey}&maxResults=${this.pageLimit}`;
     const { data } = await axios.get(url);
     return data?.items && Array.isArray(data?.items) && data?.items.length > 0
       ? data.items.map((book: any) => toBook(book))
