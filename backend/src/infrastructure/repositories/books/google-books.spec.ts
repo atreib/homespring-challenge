@@ -307,6 +307,13 @@ describe('Google Books API as Books Repository Test Suite', () => {
     expect(response).toEqual([]);
   });
 
+  it('Should fetch using the provided search query', async () => {
+    const spy = jest.spyOn(axios, 'get');
+    const { sut } = makeSut();
+    await sut.get('mock-search-query');
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('mock-search-query'));
+  });
+
   describe("Google Books API result's mapping", () => {
     const sut = toBook;
 
