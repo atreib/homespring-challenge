@@ -9,7 +9,10 @@ export class GetBooksEndpoint implements IHttpService {
   }
 
   async handle(): Promise<IHttpResponse> {
-    await this.getBooksService.handle();
-    return {} as IHttpResponse;
+    const books = await this.getBooksService.handle();
+    return {
+      status: 200,
+      body: books,
+    };
   }
 }
