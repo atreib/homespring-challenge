@@ -45,6 +45,13 @@ describe('Google Books API as Books Repository Test Suite', () => {
     expect(spy).toHaveBeenCalledWith(expect.stringContaining(`maxResults=${pageLimit}`));
   });
 
-  it.todo('Should fetch from the v1 of Google Books API');
+  it('Should fetch from the v1 of Google Books API', async () => {
+    const spy = jest.spyOn(axios, 'get');
+    const { sut } = makeSut();
+    await sut.get();
+    const googleBooksApiV1 = 'https://www.googleapis.com/books/v1/volumes?';
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining(googleBooksApiV1));
+  });
+
   it.todo('Should return the result from Google Books API');
 });
