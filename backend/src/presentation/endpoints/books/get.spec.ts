@@ -81,4 +81,15 @@ describe('Get Books Endpoint', () => {
       body: new InternalServerError(),
     });
   });
+
+  it('Should provide optional search query to Get Books Service', async () => {
+    const { sut, getBooksServiceStub } = makeSut();
+    const spy = jest.spyOn(getBooksServiceStub, 'handle');
+    await sut.handle({
+      query: {
+        search: 'mock-search-query',
+      },
+    });
+    expect(spy).toHaveBeenCalledWith('mock-search-query');
+  });
 });
