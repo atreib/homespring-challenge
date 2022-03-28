@@ -18,7 +18,7 @@ const makeGetBooksServiceStub = (): IGetBooksService => {
 
 const makeSut = (): ISutTypes => {
   const getBooksServiceStub = makeGetBooksServiceStub();
-  const sut = new GetBooksEndpoint();
+  const sut = new GetBooksEndpoint(getBooksServiceStub);
   return { sut, getBooksServiceStub };
 };
 
