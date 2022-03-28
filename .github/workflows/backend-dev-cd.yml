@@ -1,9 +1,9 @@
-name: Back-end development CD
+name: Back-end CD
 
 on:
-  push:
+  pull_request:
     branches:
-      - "develop"
+      - "master"
 
 jobs:
   build:
