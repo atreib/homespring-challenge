@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Book } from '../../../domain/models/book';
 import { GoogleBooksRepository } from './google-books';
 
 jest.mock('axios', () => ({
@@ -217,6 +218,35 @@ const AXIOS_RESULT = {
   ],
 };
 
+const AXIOS_RESULT_MAPPED: Book[] = [
+  {
+    picture:
+      'http://books.google.com/books/content?id=_oG_iTxP1pIC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api',
+    authors: ['Daniel Keyes'],
+    categories: ['Fiction'],
+    title: 'Flowers For Algernon',
+    rating: 4,
+    pagesCount: 336,
+    postingYear: 2007,
+    publisher: 'HarperCollins',
+    description:
+      "Winner of both the Hugo and Nebula Awards, the powerful, classic story about a man who receives an operation that turns him into a genius...and introduces him to heartache. Charlie Gordon is about to embark upon an unprecedented journey. Born with an unusually low IQ, he has been chosen as the perfect subject for an experimental surgery that researchers hope will increase his intelligence-a procedure that has already been highly successful when tested on a lab mouse named Algernon. As the treatment takes effect, Charlie's intelligence expands until it surpasses that of the doctors who engineered his metamorphosis. The experiment appears to be a scientific breakthrough of paramount importance, until Algernon suddenly deteriorates. Will the same happen to Charlie?",
+  },
+  {
+    picture:
+      'http://books.google.com/books/content?id=8Pr_kLFxciYC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api',
+    authors: ['Daniel Keyes'],
+    categories: ['Fiction'],
+    title: 'Flowers For Algernon',
+    rating: 5,
+    pagesCount: 224,
+    postingYear: 2012,
+    publisher: 'Hachette UK',
+    description:
+      "The classic novel about a daring experiment in human intelligence Charlie Gordon, IQ 68, is a floor sweeper and the gentle butt of everyone's jokes - until an experiment in the enhancement of human intelligence turns him into a genius. But then Algernon, the mouse whose triumphal experimental transformation preceded his, fades and dies, and Charlie has to face the possibility that his salvation was only temporary.",
+  },
+];
+
 interface SutTypes {
   apiKey: string;
   pageLimit: number;
@@ -264,10 +294,10 @@ describe('Google Books API as Books Repository Test Suite', () => {
     expect(spy).toHaveBeenCalledWith(expect.stringContaining(googleBooksApiV1));
   });
 
-  it('Should return the result from Google Books API', async () => {
+  it('Should return the mapped result from Google Books API', async () => {
     const { sut } = makeSut();
     const response = await sut.get();
-    expect(response).toEqual(AXIOS_RESULT);
+    expect(response).toEqual(AXIOS_RESULT_MAPPED);
   });
 
   it('Should return empty array if Google Books API returns undefined', async () => {
