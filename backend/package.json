@@ -1,13 +1,14 @@
 {
   "name": "backend",
   "version": "1.1.5",
-  "main": "index.js",
+  "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
     "build": "yarn tsc",
     "dev": "ts-node-dev --transpile-only --ignore-watch node_modules src/index.ts",
     "test": "jest --passWithNoTests --runInBand",
-    "test:ci": "yarn test --coverage"
+    "test:ci": "yarn test --coverage",
+    "start": "node dist/index.js"
   },
   "devDependencies": {
     "@types/jest": "^27.4.1",
