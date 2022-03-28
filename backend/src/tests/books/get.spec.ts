@@ -2,7 +2,7 @@ import axios from 'axios';
 import request from 'supertest';
 import { paginate } from '../../domain/use-cases/pagination';
 import { app } from '../../main/app';
-import { InternalServerError } from '../../presentation/errors';
+import { InternalServerError, InvalidParameter } from '../../presentation/errors';
 import { GOOGLE_BOOKS_API_RESULT, GOOGLE_BOOKS_API_RESULT_MAPPED } from './__mocks__';
 
 jest.mock('axios', () => ({
@@ -49,7 +49,7 @@ describe('Get Books Endpoint Integration Tests', () => {
 
   it('Should fetch using provided size query', async () => {
     const spy = jest.spyOn(axios, 'get');
-    const providedSize = 200;
+    const providedSize = 20;
     const { status, body } = await request(app).get(`/books?size=${providedSize}`);
     const defaultPage = 1;
     const startIndex = (defaultPage - 1) * providedSize;
@@ -66,6 +66,14 @@ describe('Get Books Endpoint Integration Tests', () => {
     expect(status).toEqual(500);
     expect(body).toEqual({
       message: new InternalServerError().message,
+    });
+  });
+
+  it('Should return 400 if provided size is greater than 40', async () => {
+    const { status, body } = await request(app).get('/books?size=500');
+    expect(status).toEqual(400);
+    expect(body).toEqual({
+      message: new InvalidParameter('size').message,
     });
   });
 });
