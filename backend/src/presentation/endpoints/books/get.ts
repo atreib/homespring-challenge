@@ -1,4 +1,5 @@
 import { IGetBooksService } from '../../../domain/use-cases/books/get';
+import { InternalServerError } from '../../errors';
 import { IHttpResponse, IHttpService } from '../../protocols/http';
 
 export class GetBooksEndpoint implements IHttpService {
@@ -9,10 +10,11 @@ export class GetBooksEndpoint implements IHttpService {
   }
 
   async handle(): Promise<IHttpResponse> {
-    const books = await this.getBooksService.handle();
-    return {
-      status: 200,
-      body: books,
-    };
+    try {
+      const books = await this.getBooksService.handle();
+      return { status: 200, body: books };
+    } catch (err) {
+      return { status: 500, body: new InternalServerError() };
+    }
   }
 }
