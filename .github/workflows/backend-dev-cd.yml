@@ -1,4 +1,4 @@
-name: Backend CD
+name: Back-end development CD
 
 on:
   push:
