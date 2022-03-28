@@ -2,7 +2,15 @@ name: Back-end development CD
 
 on:
   push:
-    branches: [develop, chore/*]
+    branches:
+      - "develop"
+      - "chore/*"
+    paths:
+      - "backend/**"
+  pull_request:
+    branches:
+      - "develop"
+      - "chore/*"
     paths:
       - "backend/**"
 

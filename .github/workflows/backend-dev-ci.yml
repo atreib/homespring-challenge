@@ -8,6 +8,13 @@ on:
       - "!develop"
     paths:
       - "backend/**"
+  pull_request:
+    branches:
+      - "**"
+      - "!master"
+      - "!develop"
+    paths:
+      - "backend/**"
 
 jobs:
   build:
