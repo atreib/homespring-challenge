@@ -5,10 +5,6 @@ on:
     branches: [develop, chore/*]
     paths:
       - "backend/**"
-  pull_request:
-    branches: [develop, chore/*]
-    paths:
-      - "backend/**"
 
 jobs:
   build:
@@ -24,13 +20,13 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm install
+      - run: yarn install
         working-directory: ./backend
-      - run: npm ci
+      - run: yarn ci
         working-directory: ./backend
-      - run: npm run build --if-present
+      - run: yarn run build --if-present
         working-directory: ./backend
-      - run: npm test
+      - run: yarn test
         working-directory: ./backend
       - uses: akhileshns/heroku-deploy@v3.12.12
         with:

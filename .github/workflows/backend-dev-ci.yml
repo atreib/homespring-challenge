@@ -8,13 +8,6 @@ on:
       - "!develop"
     paths:
       - "backend/**"
-  pull_request:
-    branches:
-      - "**"
-      - "!master"
-      - "!develop"
-    paths:
-      - "backend/**"
 
 jobs:
   build:
@@ -30,11 +23,11 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm install
+      - run: yarn install
         working-directory: ./backend
-      - run: npm ci
+      - run: yarn ci
         working-directory: ./backend
-      - run: npm run build --if-present
+      - run: yarn run build --if-present
         working-directory: ./backend
-      - run: npm test
+      - run: yarn test
         working-directory: ./backend
