@@ -294,17 +294,17 @@ describe('Google Books API as Books Repository Test Suite', () => {
     expect(spy).toHaveBeenCalledWith(expect.stringContaining(googleBooksApiV1));
   });
 
-  it('Should return the mapped result from Google Books API', async () => {
+  it('Should return the mapped result from Google Books API as its data', async () => {
     const { sut } = makeSut();
-    const response = await sut.get('any');
-    expect(response).toEqual(AXIOS_RESULT_MAPPED);
+    const { data } = await sut.get('any');
+    expect(data).toEqual(AXIOS_RESULT_MAPPED);
   });
 
-  it('Should return empty array if Google Books API returns undefined', async () => {
+  it('Should return empty array as its data if Google Books API returns undefined', async () => {
     jest.spyOn(axios, 'get').mockResolvedValueOnce({ status: 400, data: undefined });
     const { sut } = makeSut();
-    const response = await sut.get('any');
-    expect(response).toEqual([]);
+    const { data } = await sut.get('any');
+    expect(data).toEqual([]);
   });
 
   it('Should fetch using the provided search query', async () => {
