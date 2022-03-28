@@ -32,7 +32,7 @@ export class GoogleBooksRepository implements IBooksRepository {
   }
 
   async get(): Promise<Book[]> {
-    const url = `https://www.googleapis.com/books/v1/volumes?key=${this.apiKey}&maxResults=${this.pageLimit}`;
+    const url = `https://www.googleapis.com/books/v1/volumes?q=flowers&key=${this.apiKey}&maxResults=${this.pageLimit}`;
     const { data } = await axios.get(url);
     return data?.items && Array.isArray(data?.items) && data?.items.length > 0
       ? data.items.map((book: any) => toBook(book))
