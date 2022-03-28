@@ -21,6 +21,18 @@ app.use(cors());
  *         description: A search query to filter the returned books
  *         schema:
  *           type: string
+ *       - in: query
+ *         name: page
+ *         required: false
+ *         description: The page to fetch
+ *         schema:
+ *           type: number
+ *       - in: query
+ *         name: size
+ *         required: false
+ *         description: The limit of records per page
+ *         schema:
+ *           type: number
  *     responses:
  *       200:
  *         description: Returns 5 books from Google Books API
