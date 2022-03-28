@@ -1,7 +1,7 @@
 import { Book } from '../../../domain/models/book';
 import { IGetBooksService, IGetBooksServiceDTO } from '../../../domain/use-cases/books/get';
 import { paginate, Paginated } from '../../../domain/use-cases/pagination';
-import { InternalServerError } from '../../errors';
+import { InternalServerError, InvalidParameter } from '../../errors';
 import { GetBooksEndpoint } from './get';
 
 interface ISutTypes {
@@ -80,6 +80,15 @@ describe('Get Books Endpoint', () => {
     expect(result).toEqual({
       status: 500,
       body: new InternalServerError(),
+    });
+  });
+
+  it('Should throw 400 if page size is greater than 40', async () => {
+    const { sut } = makeSut();
+    const result = await sut.handle({ query: { size: 500 } });
+    expect(result).toEqual({
+      status: 400,
+      body: new InvalidParameter('size'),
     });
   });
 
