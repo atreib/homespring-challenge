@@ -1,6 +1,7 @@
 import axios from 'axios';
 import request from 'supertest';
 import { app } from '../../main/app';
+import { InternalServerError } from '../../presentation/errors';
 import { GOOGLE_BOOKS_API_RESULT, GOOGLE_BOOKS_API_RESULT_MAPPED } from './__mocks__';
 
 jest.mock('axios', () => ({
@@ -18,5 +19,14 @@ describe('Get Books Endpoint Integration Tests', () => {
     expect(body).toEqual(GOOGLE_BOOKS_API_RESULT_MAPPED);
   });
 
-  it.todo('Should return 500 with Internal Server Error if an error happens');
+  it('Should return 500 with Internal Server Error if an error happens', async () => {
+    jest.spyOn(axios, 'get').mockImplementationOnce(() => {
+      throw new Error();
+    });
+    const { status, body } = await request(app).get('/books');
+    expect(status).toEqual(500);
+    expect(body).toEqual({
+      message: new InternalServerError().message,
+    });
+  });
 });
