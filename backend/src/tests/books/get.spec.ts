@@ -1,4 +1,22 @@
+import axios from 'axios';
+import request from 'supertest';
+import { app } from '../../main/app';
+import { GOOGLE_BOOKS_API_RESULT, GOOGLE_BOOKS_API_RESULT_MAPPED } from './__mocks__';
+
+jest.mock('axios', () => ({
+  get: jest.fn(),
+}));
+
 describe('Get Books Endpoint Integration Tests', () => {
-  it.todo('Should return 200 with the result of Google Books API if ok');
+  beforeAll(() => {
+    axios.get = jest.fn().mockResolvedValue({ status: 200, data: GOOGLE_BOOKS_API_RESULT });
+  });
+
+  it('Should return 200 with the result of Google Books API if ok', async () => {
+    const { status, body } = await request(app).get('/books');
+    expect(status).toEqual(200);
+    expect(body).toEqual(GOOGLE_BOOKS_API_RESULT_MAPPED);
+  });
+
   it.todo('Should return 500 with Internal Server Error if an error happens');
 });
