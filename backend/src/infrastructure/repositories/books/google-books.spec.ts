@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { GoogleBooksRepository } from './google-books';
+import { AXIOS_RESULT } from './__mocks__/axios';
 
 jest.mock('axios', () => ({
   get: jest.fn(),
@@ -20,7 +21,7 @@ const makeSut = (): SutTypes => {
 
 describe('Google Books API as Books Repository Test Suite', () => {
   beforeAll(() => {
-    axios.get = jest.fn().mockResolvedValue({ mock: true });
+    axios.get = jest.fn().mockResolvedValue({ status: 200, data: AXIOS_RESULT });
   });
 
   it('Should fetch Google Books API using Axios GET', async () => {
