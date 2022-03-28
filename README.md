@@ -17,3 +17,7 @@ The Heroku secret is stored in the Github Secrets.
 
 - Google Books API docs: https://developers.google.com/books/docs/v1/using
 - Figma: https://www.figma.com/file/ysxUdtjaQ60ntYsWlVRsft/Book-search
+
+# Contributing
+
+You can read more about the development process and how to contribute through the CONTRIBUTING.md file or by accessing the modules directories (each one'll have its own README file, containing more information about it)

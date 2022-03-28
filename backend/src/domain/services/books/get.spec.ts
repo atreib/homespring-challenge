@@ -10,7 +10,8 @@ interface ISutTypes {
 
 const makeBooksRepositoryStub = (): IBooksRepository => {
   class BooksRepositoryStub implements IBooksRepository {
-    async get(): Promise<Book[]> {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    async get(search: string): Promise<Book[]> {
       return new Promise((resolve) => {
         resolve(MOCK_BOOKS);
       });
@@ -27,16 +28,23 @@ const makeSut = (): ISutTypes => {
 };
 
 describe('Get Books Services Test Suite', () => {
-  it('Should call Books Repository to get books', async () => {
+  it('Should call Books Repository to get books with provided search query', async () => {
+    const { sut, booksRepositoryStub } = makeSut();
+    const spy = jest.spyOn(booksRepositoryStub, 'get');
+    await sut.handle('mock-search-query');
+    expect(spy).toHaveBeenCalledWith('mock-search-query');
+  });
+
+  it('Should provide static search query when anythings provided', async () => {
     const { sut, booksRepositoryStub } = makeSut();
     const spy = jest.spyOn(booksRepositoryStub, 'get');
     await sut.handle();
-    expect(spy).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalledWith('flowers');
   });
 
   it('Should return books from the Books Repository', async () => {
     const { sut, booksRepositoryStub } = makeSut();
-    const expected = await booksRepositoryStub.get();
+    const expected = await booksRepositoryStub.get('any');
     const response = await sut.handle();
     expect(response).toEqual(expected);
   });

@@ -56,14 +56,14 @@ describe('Get Books Endpoint', () => {
   it('Should fetch from Get Books Service', async () => {
     const { sut, getBooksServiceStub } = makeSut();
     const spy = jest.spyOn(getBooksServiceStub, 'handle');
-    await sut.handle();
+    await sut.handle({});
     expect(spy).toHaveBeenCalled();
   });
 
   it('Should return status 200 with the result from Get Books Service', async () => {
     const { sut, getBooksServiceStub } = makeSut();
     const expected = await getBooksServiceStub.handle();
-    const result = await sut.handle();
+    const result = await sut.handle({});
     expect(result).toEqual({
       status: 200,
       body: expected,
@@ -75,10 +75,21 @@ describe('Get Books Endpoint', () => {
     jest.spyOn(getBooksServiceStub, 'handle').mockImplementationOnce(() => {
       throw new Error();
     });
-    const result = await sut.handle();
+    const result = await sut.handle({});
     expect(result).toEqual({
       status: 500,
       body: new InternalServerError(),
     });
+  });
+
+  it('Should provide optional search query to Get Books Service', async () => {
+    const { sut, getBooksServiceStub } = makeSut();
+    const spy = jest.spyOn(getBooksServiceStub, 'handle');
+    await sut.handle({
+      query: {
+        search: 'mock-search-query',
+      },
+    });
+    expect(spy).toHaveBeenCalledWith('mock-search-query');
   });
 });

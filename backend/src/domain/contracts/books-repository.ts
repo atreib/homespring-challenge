@@ -1,5 +1,5 @@
 import { Book } from '../models/book';
 
 export interface IBooksRepository {
-  get(): Promise<Book[]>;
+  get(search: string): Promise<Book[]>;
 }

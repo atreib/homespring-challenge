@@ -7,8 +7,19 @@ const options = {
     openapi: '3.0.0',
     info: {
       title: 'Homespring Challenge',
-      version: '1.2.7',
+      version: '1.2.8',
+      description: 'This is a showcase of a fullstack development',
     },
+    servers: [
+      {
+        url: 'http://localhost:3000',
+        description: 'Localhost environment',
+      },
+      {
+        url: 'https://homespring-challenge-backend.herokuapp.com:3000',
+        description: 'Staging environment, synced with the branch development',
+      },
+    ],
   },
   apis: ['./src/main/*.ts'],
 };

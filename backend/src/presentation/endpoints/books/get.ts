@@ -1,6 +1,6 @@
 import { IGetBooksService } from '../../../domain/use-cases/books/get';
 import { InternalServerError } from '../../errors';
-import { IHttpResponse, IHttpService } from '../../protocols/http';
+import { IHttpRequest, IHttpResponse, IHttpService } from '../../protocols/http';
 
 export class GetBooksEndpoint implements IHttpService {
   private readonly getBooksService: IGetBooksService;
@@ -9,9 +9,10 @@ export class GetBooksEndpoint implements IHttpService {
     this.getBooksService = _getBooksService;
   }
 
-  async handle(): Promise<IHttpResponse> {
+  async handle(request: IHttpRequest): Promise<IHttpResponse> {
     try {
-      const books = await this.getBooksService.handle();
+      const { search } = request.query ?? { search: undefined };
+      const books = await this.getBooksService.handle(search);
       return { status: 200, body: books };
     } catch (err) {
       return { status: 500, body: new InternalServerError() };

@@ -19,6 +19,15 @@ describe('Get Books Endpoint Integration Tests', () => {
     expect(body).toEqual(GOOGLE_BOOKS_API_RESULT_MAPPED);
   });
 
+  it('Should fetch using provided search query', async () => {
+    const spy = jest.spyOn(axios, 'get');
+    const search = 'mock-search-query';
+    const { status, body } = await request(app).get(`/books?search=${search}`);
+    expect(status).toEqual(200);
+    expect(body).toEqual(GOOGLE_BOOKS_API_RESULT_MAPPED);
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining(search));
+  });
+
   it('Should return 500 with Internal Server Error if an error happens', async () => {
     jest.spyOn(axios, 'get').mockImplementationOnce(() => {
       throw new Error();
