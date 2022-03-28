@@ -314,6 +314,14 @@ describe('Google Books API as Books Repository Test Suite', () => {
     expect(spy).toHaveBeenCalledWith(expect.stringContaining('mock-search-query'));
   });
 
+  it('Should fetch using the provided page query', async () => {
+    const spy = jest.spyOn(axios, 'get');
+    const { sut, pageLimit } = makeSut();
+    await sut.get('mock-search-query', 2);
+    const skip = (2 - 1) * pageLimit;
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining(`startIndex=${skip}`));
+  });
+
   describe("Google Books API result's mapping", () => {
     const sut = toBook;
 
