@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Book } from '../../../domain/models/book';
+import { paginate } from '../../../domain/use-cases/pagination';
 import { GoogleBooksRepository, toBook } from './google-books';
 
 jest.mock('axios', () => ({
@@ -249,15 +250,13 @@ const AXIOS_RESULT_MAPPED: Book[] = [
 
 interface SutTypes {
   apiKey: string;
-  pageLimit: number;
   sut: GoogleBooksRepository;
 }
 
 const makeSut = (): SutTypes => {
   const apiKey = 'mock-my-api-key';
-  const pageLimit = 5;
-  const sut = new GoogleBooksRepository(apiKey, pageLimit);
-  return { sut, apiKey, pageLimit };
+  const sut = new GoogleBooksRepository(apiKey);
+  return { sut, apiKey };
 };
 
 describe('Google Books API as Books Repository Test Suite', () => {
@@ -268,57 +267,59 @@ describe('Google Books API as Books Repository Test Suite', () => {
   it('Should fetch Google Books API using Axios GET', async () => {
     const spy = jest.spyOn(axios, 'get');
     const { sut } = makeSut();
-    await sut.get('any');
+    await sut.get('any', 1, 1);
     expect(spy).toHaveBeenCalled();
   });
 
   it('Should fetch using the injected Api Key', async () => {
     const spy = jest.spyOn(axios, 'get');
     const { sut, apiKey } = makeSut();
-    await sut.get('any');
+    await sut.get('any', 1, 1);
     expect(spy).toHaveBeenCalledWith(expect.stringContaining(apiKey));
-  });
-
-  it('Should fetch using the injected limit per page', async () => {
-    const spy = jest.spyOn(axios, 'get');
-    const { sut, pageLimit } = makeSut();
-    await sut.get('any');
-    expect(spy).toHaveBeenCalledWith(expect.stringContaining(`maxResults=${pageLimit}`));
   });
 
   it('Should fetch from the v1 of Google Books API', async () => {
     const spy = jest.spyOn(axios, 'get');
     const { sut } = makeSut();
-    await sut.get('any');
+    await sut.get('any', 1, 1);
     const googleBooksApiV1 = 'https://www.googleapis.com/books/v1/volumes?';
     expect(spy).toHaveBeenCalledWith(expect.stringContaining(googleBooksApiV1));
   });
 
-  it('Should return the mapped result from Google Books API as its data', async () => {
+  it('Should return the paginated result from Google Books API', async () => {
     const { sut } = makeSut();
-    const { data } = await sut.get('any');
-    expect(data).toEqual(AXIOS_RESULT_MAPPED);
+    const page = 2;
+    const size = 3;
+    const result = await sut.get('any', page, size);
+    const total = AXIOS_RESULT.totalItems;
+    expect(result).toEqual(paginate(AXIOS_RESULT_MAPPED, total, page, size));
   });
 
-  it('Should return empty array as its data if Google Books API returns undefined', async () => {
+  it('Should return empty paginated data if Google Books API returns undefined', async () => {
     jest.spyOn(axios, 'get').mockResolvedValueOnce({ status: 400, data: undefined });
     const { sut } = makeSut();
-    const { data } = await sut.get('any');
-    expect(data).toEqual([]);
+    const page = 2;
+    const size = 3;
+    const result = await sut.get('any', page, size);
+    expect(result).toEqual(paginate([], 0, 1, size));
   });
 
   it('Should fetch using the provided search query', async () => {
     const spy = jest.spyOn(axios, 'get');
     const { sut } = makeSut();
-    await sut.get('mock-search-query');
-    expect(spy).toHaveBeenCalledWith(expect.stringContaining('mock-search-query'));
+    const page = 1;
+    const size = 1;
+    await sut.get('mock-search-query', page, size);
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('q=mock-search-query'));
   });
 
   it('Should fetch using the provided page query', async () => {
     const spy = jest.spyOn(axios, 'get');
-    const { sut, pageLimit } = makeSut();
-    await sut.get('mock-search-query', 2);
-    const skip = (2 - 1) * pageLimit;
+    const { sut } = makeSut();
+    const page = 2;
+    const size = 5;
+    await sut.get('mock-search-query', page, size);
+    const skip = (page - 1) * size;
     expect(spy).toHaveBeenCalledWith(expect.stringContaining(`startIndex=${skip}`));
   });
 
