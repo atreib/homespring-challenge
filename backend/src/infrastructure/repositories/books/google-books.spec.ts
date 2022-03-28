@@ -264,7 +264,11 @@ describe('Google Books API as Books Repository Test Suite', () => {
     expect(spy).toHaveBeenCalledWith(expect.stringContaining(googleBooksApiV1));
   });
 
-  it.todo('Should return the result from Google Books API');
+  it('Should return the result from Google Books API', async () => {
+    const { sut } = makeSut();
+    const response = await sut.get();
+    expect(response).toEqual(AXIOS_RESULT);
+  });
 
   it.todo('Should return empty array if Google Books API returns empty');
 
