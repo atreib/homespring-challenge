@@ -270,7 +270,12 @@ describe('Google Books API as Books Repository Test Suite', () => {
     expect(response).toEqual(AXIOS_RESULT);
   });
 
-  it.todo('Should return empty array if Google Books API returns empty');
+  it('Should return empty array if Google Books API returns undefined', async () => {
+    jest.spyOn(axios, 'get').mockResolvedValueOnce({ status: 400, data: undefined });
+    const { sut } = makeSut();
+    const response = await sut.get();
+    expect(response).toEqual([]);
+  });
 
   describe("Google Books API result's mapping", () => {
     it.todo('Should correctly map the picture property');
