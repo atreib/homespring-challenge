@@ -19,7 +19,7 @@ describe('Get Books Endpoint Integration Tests', () => {
     expect(body).toEqual(GOOGLE_BOOKS_API_RESULT_MAPPED);
   });
 
-  it.only('Should fetch using provided search query', async () => {
+  it('Should fetch using provided search query', async () => {
     const spy = jest.spyOn(axios, 'get');
     const search = 'mock-search-query';
     const { status, body } = await request(app).get(`/books?search=${search}`);
