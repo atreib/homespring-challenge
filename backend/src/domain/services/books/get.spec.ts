@@ -1,14 +1,29 @@
 import { GetBooksService } from './get';
 import { IBooksRepository } from '../../contracts/books-repository';
+import { MOCK_BOOKS } from './__mocks__/books';
+import { Book } from '../../models/book';
 
 interface ISutTypes {
   sut: GetBooksService;
   booksRepositoryStub: IBooksRepository;
 }
 
+const makeBooksRepositoryStub = (): IBooksRepository => {
+  class BooksRepositoryStub implements IBooksRepository {
+    async get(): Promise<Book[]> {
+      return new Promise((resolve) => {
+        resolve(MOCK_BOOKS);
+      });
+    }
+  }
+
+  return new BooksRepositoryStub();
+};
+
 const makeSut = (): ISutTypes => {
+  const booksRepositoryStub = makeBooksRepositoryStub();
   const sut = new GetBooksService();
-  return { sut, booksRepositoryStub: {} as IBooksRepository };
+  return { sut, booksRepositoryStub };
 };
 
 describe('Get Books Services Test Suite', () => {
