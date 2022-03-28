@@ -9,7 +9,8 @@ export class GetBooksService implements IGetBooksService {
     this.booksRepository = _booksRepository;
   }
 
-  async handle(): Promise<Book[]> {
-    return this.booksRepository.get();
+  async handle(search?: string): Promise<Book[]> {
+    const query = search ?? 'flowers';
+    return this.booksRepository.get(query);
   }
 }
