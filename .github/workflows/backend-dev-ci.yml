@@ -1,13 +1,9 @@
-name: Back-end development CI
+name: Back-end CI
 
 on:
-  push:
+  pull_request:
     branches:
-      - "*"
-      - "*/*"
-      - "**"
-      - "!master"
-      - "!develop"
+      - "develop"
 
 jobs:
   build:
