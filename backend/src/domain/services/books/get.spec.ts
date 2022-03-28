@@ -22,7 +22,7 @@ const makeBooksRepositoryStub = (): IBooksRepository => {
 
 const makeSut = (): ISutTypes => {
   const booksRepositoryStub = makeBooksRepositoryStub();
-  const sut = new GetBooksService();
+  const sut = new GetBooksService(booksRepositoryStub);
   return { sut, booksRepositoryStub };
 };
 
