@@ -34,5 +34,10 @@ describe('Get Books Services Test Suite', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it.todo('Should return books from the Books Repository');
+  it('Should return books from the Books Repository', async () => {
+    const { sut, booksRepositoryStub } = makeSut();
+    const expected = await booksRepositoryStub.get();
+    const response = await sut.handle();
+    expect(response).toEqual(expected);
+  });
 });
