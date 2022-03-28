@@ -24,7 +24,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: yarn install
         working-directory: ./backend
-      - run: yarn run build --if-present
+      - run: yarn build
         working-directory: ./backend
       - run: yarn test
         working-directory: ./backend
