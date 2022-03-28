@@ -11,10 +11,11 @@ export class GetBooksEndpoint implements IHttpService {
 
   async handle(request: IHttpRequest): Promise<IHttpResponse> {
     try {
-      const { search, page } = request.query ?? { search: undefined, page: undefined };
+      const { search, page, size } = request.query ?? { search: undefined, page: undefined, size: undefined };
       const books = await this.getBooksService.handle({
         search,
         page,
+        size,
       });
       return { status: 200, body: books };
     } catch (err) {
