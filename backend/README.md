@@ -36,3 +36,7 @@ Duplicate the `.env.example` file and rename it to `.env`. You'll need to set a 
 - `Presentation layer`: Layer responsible for injecting our domain services and transforming them into HTTP services.
 - `Main layer`: Layer responsible for implementing the Express framework client and routes, injecting all HTTP services created in the presentation layer. The main layer is also responsible for the factories that make our services, applying the dependency injection.
 - `index.ts`: Entrypoint of our server. Starts it and keep it running
+
+# API
+
+You can find out more about the available endpoints through the `/docs` endpoint. Run the API (`yarn dev`) and access the `/docs` endpoint. We're using the OpenAPI specification with the Swagger UI to automatically provide the endpoints documentation.

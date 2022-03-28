@@ -45,8 +45,10 @@ After you've developed our task and you think it's ready to go, you must create 
 
 As said before, your pull-request must check all items from the done criteria in order to be ready to be reviewed.
 
-- [ ] The app's version was increased
+- [ ] The app's version was increased on package.json
+- [ ] The app's version was increased in the options of the OpenAPI, on `src/main/index.ts`
 - [ ] All the automated tests were run and are passing
 - [ ] New tests were created in order to cover this branch's development (at least 60% of coverage)
 - [ ] The documentation was updated
+- [ ] The Swagger documentation was updated
 - [ ] I've provided every information required in order to review this pull-request
