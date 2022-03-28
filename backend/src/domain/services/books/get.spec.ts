@@ -12,13 +12,13 @@ interface ISutTypes {
 const makeBooksRepositoryStub = (): IBooksRepository => {
   class BooksRepositoryStub implements IBooksRepository {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    async get(search: string, page = 1): Promise<Paginated<Book>> {
+    async get(search: string, page: number, size: number): Promise<Paginated<Book>> {
       return new Promise((resolve) => {
         resolve({
           data: MOCK_BOOKS,
-          total: 2,
-          page: 1,
-          size: 5,
+          total: 50934,
+          page: 31,
+          size: 12,
         });
       });
     }
@@ -34,47 +34,43 @@ const makeSut = (): ISutTypes => {
 };
 
 describe('Get Books Services Test Suite', () => {
-  it('Should call Books Repository to get books with provided search query', async () => {
+  it('Should call Books Repository to get books with provided data', async () => {
     const { sut, booksRepositoryStub } = makeSut();
     const spy = jest.spyOn(booksRepositoryStub, 'get');
-    await sut.handle({
-      search: 'mock-search-query',
-      page: 2,
-    });
-    expect(spy).toHaveBeenCalledWith('mock-search-query', 2);
-  });
-
-  it('Should call Books Repository to get books from provided page', async () => {
-    const { sut, booksRepositoryStub } = makeSut();
-    const spy = jest.spyOn(booksRepositoryStub, 'get');
-    await sut.handle({
-      search: 'any',
-      page: 2,
-    });
-    expect(spy).toHaveBeenCalledWith('any', 2);
+    const page = 15;
+    const size = 23;
+    await sut.handle({ search: 'mock-search-query', page, size });
+    expect(spy).toHaveBeenCalledWith('mock-search-query', page, size);
   });
 
   it('Should provide "flowers" search query when nothing is provided', async () => {
     const { sut, booksRepositoryStub } = makeSut();
     const spy = jest.spyOn(booksRepositoryStub, 'get');
-    await sut.handle({
-      page: 2,
-    });
-    expect(spy).toHaveBeenCalledWith('flowers', 2);
+    const page = 3242;
+    const size = 3242;
+    await sut.handle({ page, size });
+    expect(spy).toHaveBeenCalledWith('flowers', page, size);
   });
 
   it('Should provide page "1" when nothing is provided', async () => {
     const { sut, booksRepositoryStub } = makeSut();
     const spy = jest.spyOn(booksRepositoryStub, 'get');
-    await sut.handle({
-      search: 'anything',
-    });
-    expect(spy).toHaveBeenCalledWith('anything', 1);
+    const size = 3242;
+    await sut.handle({ search: 'anything', size });
+    expect(spy).toHaveBeenCalledWith('anything', 1, size);
+  });
+
+  it('Should provide size "5" when nothing is provided', async () => {
+    const { sut, booksRepositoryStub } = makeSut();
+    const spy = jest.spyOn(booksRepositoryStub, 'get');
+    const page = 3242;
+    await sut.handle({ search: 'anything', page });
+    expect(spy).toHaveBeenCalledWith('anything', page, 5);
   });
 
   it('Should return books from the Books Repository', async () => {
     const { sut, booksRepositoryStub } = makeSut();
-    const expected = await booksRepositoryStub.get('any', 1);
+    const expected = await booksRepositoryStub.get('any', 1, 1);
     const response = await sut.handle({});
     expect(response).toEqual(expected);
   });
