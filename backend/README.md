@@ -16,6 +16,10 @@ Our application has automated tests using the Jest library. We aim to maintain a
 - VS Code
 - Git 2.31.0+
 
+## Variables
+
+Duplicate the `.env.example` file and rename it to `.env`. You'll need to set a few API Keys. The referral links are placed together with the env vars.
+
 # Commands
 
 - `build`: Build the application into the `/dist` folder
