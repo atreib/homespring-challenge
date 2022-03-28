@@ -26,16 +26,13 @@ export const toBook = (googleBook: any): Book => {
 export class GoogleBooksRepository implements IBooksRepository {
   private readonly apiKey: string;
 
-  private readonly pageLimit: number;
-
-  constructor(_apiKey: string, _pageLimit: number) {
+  constructor(_apiKey: string) {
     this.apiKey = _apiKey;
-    this.pageLimit = _pageLimit;
   }
 
-  async get(search: string, page = 1): Promise<Paginated<Book>> {
-    const skip = (page - 1) * this.pageLimit;
-    const url = `https://www.googleapis.com/books/v1/volumes?q=${search}&startIndex=${skip}&key=${this.apiKey}&maxResults=${this.pageLimit}`;
+  async get(search: string, page: number, size: number): Promise<Paginated<Book>> {
+    const startIndex = (page - 1) * size;
+    const url = `https://www.googleapis.com/books/v1/volumes?q=${search}&startIndex=${startIndex}&key=${this.apiKey}&maxResults=${size}`;
     const { data } = await axios.get(url);
     const { items, totalItems } = data ?? { items: undefined, totalItems: 0 };
 
@@ -43,9 +40,9 @@ export class GoogleBooksRepository implements IBooksRepository {
       ? paginate(
         items.map((book: any) => toBook(book)),
         totalItems,
-        1,
-        this.pageLimit,
+        page,
+        size,
       )
-      : paginate([], 0, 1, this.pageLimit);
+      : paginate([], 0, 1, size);
   }
 }
