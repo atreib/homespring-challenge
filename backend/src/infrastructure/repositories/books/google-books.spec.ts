@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Book } from '../../../domain/models/book';
-import { GoogleBooksRepository } from './google-books';
+import { GoogleBooksRepository, toBook } from './google-books';
 
 jest.mock('axios', () => ({
   get: jest.fn(),
@@ -308,23 +308,96 @@ describe('Google Books API as Books Repository Test Suite', () => {
   });
 
   describe("Google Books API result's mapping", () => {
-    it.todo('Should correctly map the picture property');
-    it.todo('Should set picture as undefined if not provided');
-    it.todo('Should correctly map the authors property');
-    it.todo('Should set authors as Unknown if not provided');
-    it.todo('Should correctly map the categories property');
-    it.todo('Should set categories as empty array if not provided');
-    it.todo('Should correctly map the title property');
-    it.todo('Should set title as Unknown if not provided');
-    it.todo('Should correctly map the rating property');
-    it.todo('Should set rating as 0 if not provided');
-    it.todo('Should correctly map the pagesCount property');
-    it.todo('Should set pagesCount as 0 if not provided');
-    it.todo('Should correctly map the postingYear property');
-    it.todo('Should set postingYear as 0 if not provided');
-    it.todo('Should correctly map the publisher property');
-    it.todo('Should set publisher as Unknown if not provided');
-    it.todo('Should correctly map the description property');
-    it.todo('Should set description as empty if not provided');
+    const sut = toBook;
+
+    it('Should correctly map the picture property', () => {
+      const { picture } = sut({ volumeInfo: { imageLinks: { thumbnail: 'mock-thumbnail' } } });
+      expect(picture).toBe('mock-thumbnail');
+    });
+
+    it('Should set picture as empty if not provided', () => {
+      const { picture } = sut({});
+      expect(picture).toBe('');
+    });
+
+    it('Should correctly map the authors property', () => {
+      const { authors } = sut({ volumeInfo: { authors: ['author1', 'author2'] } });
+      expect(authors).toEqual(['author1', 'author2']);
+    });
+
+    it('Should set authors as Unknown if not provided', () => {
+      const { authors } = sut({});
+      expect(authors).toEqual(['Unknown author']);
+    });
+
+    it('Should correctly map the categories property', () => {
+      const { categories } = sut({ volumeInfo: { categories: ['cat1', 'cat2'] } });
+      expect(categories).toEqual(['cat1', 'cat2']);
+    });
+
+    it('Should set categories as empty array if not provided', () => {
+      const { categories } = sut({});
+      expect(categories).toEqual([]);
+    });
+
+    it('Should correctly map the title property', () => {
+      const { title } = sut({ volumeInfo: { title: 'mock-book-title' } });
+      expect(title).toEqual('mock-book-title');
+    });
+
+    it('Should set title as Unknown if not provided', () => {
+      const { title } = sut({});
+      expect(title).toEqual('Unknown title');
+    });
+
+    it('Should correctly map the rating property', () => {
+      const { rating } = sut({ volumeInfo: { averageRating: 5 } });
+      expect(rating).toEqual(5);
+    });
+
+    it('Should set rating as 0 if not provided', () => {
+      const { rating } = sut({});
+      expect(rating).toEqual(0);
+    });
+
+    it('Should correctly map the pagesCount property', () => {
+      const { pagesCount } = sut({ volumeInfo: { pageCount: 234 } });
+      expect(pagesCount).toEqual(234);
+    });
+
+    it('Should set pagesCount as 0 if not provided', () => {
+      const { pagesCount } = sut({});
+      expect(pagesCount).toEqual(0);
+    });
+
+    it('Should correctly map the postingYear property', () => {
+      const { postingYear } = sut({ volumeInfo: { publishedDate: '2022-03-28' } });
+      expect(postingYear).toBe(2022);
+    });
+
+    it('Should set postingYear as 0 if not provided', () => {
+      const { postingYear } = sut({});
+      expect(postingYear).toBe(0);
+    });
+
+    it('Should correctly map the publisher property', () => {
+      const { publisher } = sut({ volumeInfo: { publisher: 'mock-publisher' } });
+      expect(publisher).toEqual('mock-publisher');
+    });
+
+    it('Should set publisher as Unknown if not provided', () => {
+      const { publisher } = sut({});
+      expect(publisher).toBe('Unknown publisher');
+    });
+
+    it('Should correctly map the description property', () => {
+      const { description } = sut({ volumeInfo: { description: 'mock-description' } });
+      expect(description).toEqual('mock-description');
+    });
+
+    it('Should set description as empty if not provided', () => {
+      const { description } = sut({});
+      expect(description).toEqual('');
+    });
   });
 });
