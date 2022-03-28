@@ -1,7 +1,9 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios';
 import { IBooksRepository } from '../../../domain/contracts/books-repository';
 import { Book } from '../../../domain/models/book';
+import { paginate, Paginated } from '../../../domain/use-cases/pagination';
 
 export const toBook = (googleBook: any): Book => {
   const postingYear = googleBook.volumeInfo?.publishedDate
@@ -31,11 +33,18 @@ export class GoogleBooksRepository implements IBooksRepository {
     this.pageLimit = _pageLimit;
   }
 
-  async get(search: string): Promise<{ data: Book[] }> {
+  async get(search: string): Promise<Paginated<Book>> {
     const url = `https://www.googleapis.com/books/v1/volumes?q=${search}&key=${this.apiKey}&maxResults=${this.pageLimit}`;
     const { data } = await axios.get(url);
-    return data?.items && Array.isArray(data?.items) && data?.items.length > 0
-      ? { data: data.items.map((book: any) => toBook(book)) }
-      : { data: [] };
+    const { items, totalItems } = data ?? { items: undefined, totalItems: 0 };
+
+    return items && Array.isArray(items) && items.length > 0
+      ? paginate(
+        items.map((book: any) => toBook(book)),
+        totalItems,
+        1,
+        this.pageLimit,
+      )
+      : paginate([], 0, 1, this.pageLimit);
   }
 }
