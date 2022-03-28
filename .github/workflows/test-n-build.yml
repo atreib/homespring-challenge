@@ -1,12 +1,12 @@
-name: Node.js CI and CD
+name: Backend CI
 
 on:
   push:
-    branches: [develop, master, chore/*]
+    branches: [ * ]
     paths:
       - "backend/**"
   pull_request:
-    branches: [develop, master, chore/*]
+    branches: [ * ]
     paths:
       - "backend/**"
 
@@ -32,8 +32,3 @@ jobs:
         working-directory: ./backend
       - run: npm test
         working-directory: ./backend
-      - uses: akhileshns/heroku-deploy@v3.12.12
-        with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "homespring-challenge-backend"
-          heroku_email: "andre.schumacher.treib@gmail.com"
