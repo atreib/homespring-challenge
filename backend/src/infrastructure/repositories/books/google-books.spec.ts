@@ -15,7 +15,7 @@ interface SutTypes {
 const makeSut = (): SutTypes => {
   const apiKey = 'mock-my-api-key';
   const pageLimit = 5;
-  const sut = new GoogleBooksRepository(apiKey);
+  const sut = new GoogleBooksRepository(apiKey, pageLimit);
   return { sut, apiKey, pageLimit };
 };
 

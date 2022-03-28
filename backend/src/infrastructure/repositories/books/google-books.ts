@@ -5,12 +5,15 @@ import { Book } from '../../../domain/models/book';
 export class GoogleBooksRepository implements IBooksRepository {
   private readonly apiKey: string;
 
-  constructor(_apiKey: string) {
+  private readonly pageLimit: number;
+
+  constructor(_apiKey: string, _pageLimit: number) {
     this.apiKey = _apiKey;
+    this.pageLimit = _pageLimit;
   }
 
   async get(): Promise<Book[]> {
-    await axios.get(this.apiKey);
+    await axios.get(`${this.apiKey}maxResults=${this.pageLimit}`);
     return [] as Book[];
   }
 }
