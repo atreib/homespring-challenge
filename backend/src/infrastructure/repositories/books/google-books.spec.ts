@@ -38,7 +38,13 @@ describe('Google Books API as Books Repository Test Suite', () => {
     expect(spy).toHaveBeenCalledWith(expect.stringContaining(apiKey));
   });
 
-  it.todo('Should fetch using the injected limit per page');
+  it('Should fetch using the injected limit per page', async () => {
+    const spy = jest.spyOn(axios, 'get');
+    const { sut, pageLimit } = makeSut();
+    await sut.get();
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining(`maxResults=${pageLimit}`));
+  });
+
   it.todo('Should fetch from the v1 of Google Books API');
   it.todo('Should return the result from Google Books API');
 });
