@@ -1,13 +1,6 @@
 name: Back-end development CI
 
 on:
-  push:
-    branches:
-      - "**"
-      - "!master"
-      - "!develop"
-    paths:
-      - "backend/**"
   pull_request:
     branches:
       - "**"
@@ -31,8 +24,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: yarn install
-        working-directory: ./backend
-      - run: yarn ci
         working-directory: ./backend
       - run: yarn run build --if-present
         working-directory: ./backend

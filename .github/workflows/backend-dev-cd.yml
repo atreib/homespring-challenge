@@ -1,12 +1,6 @@
 name: Back-end development CD
 
 on:
-  push:
-    branches:
-      - "develop"
-      - "chore/*"
-    paths:
-      - "backend/**"
   pull_request:
     branches:
       - "develop"
@@ -29,8 +23,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: yarn install
-        working-directory: ./backend
-      - run: yarn ci
         working-directory: ./backend
       - run: yarn run build --if-present
         working-directory: ./backend
