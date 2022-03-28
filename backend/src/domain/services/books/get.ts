@@ -10,7 +10,6 @@ export class GetBooksService implements IGetBooksService {
   }
 
   async handle(): Promise<Book[]> {
-    await this.booksRepository.get();
-    return [] as Book[];
+    return this.booksRepository.get();
   }
 }
