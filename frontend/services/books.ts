@@ -2,17 +2,15 @@ import { Book } from "../models/book";
 
 export const MOCK_BOOKS: Book[] = [
   {
-    picture:
-      "http://books.google.com/books/content?id=_oG_iTxP1pIC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-    authors: ["Daniel Keyes"],
-    categories: ["Fiction"],
-    title: "Flowers For Algernon",
-    rating: 4,
-    pagesCount: 336,
-    postingYear: 2007,
-    publisher: "HarperCollins",
-    description:
-      "Winner of both the Hugo and Nebula Awards, the powerful, classic story about a man who receives an operation that turns him into a genius...and introduces him to heartache. Charlie Gordon is about to embark upon an unprecedented journey. Born with an unusually low IQ, he has been chosen as the perfect subject for an experimental surgery that researchers hope will increase his intelligence-a procedure that has already been highly successful when tested on a lab mouse named Algernon. As the treatment takes effect, Charlie's intelligence expands until it surpasses that of the doctors who engineered his metamorphosis. The experiment appears to be a scientific breakthrough of paramount importance, until Algernon suddenly deteriorates. Will the same happen to Charlie?",
+    picture: "",
+    authors: ["Unknown author"],
+    categories: [],
+    title: "Unknown title",
+    rating: 0,
+    pagesCount: 0,
+    postingYear: 0,
+    publisher: "Unknown publisher",
+    description: "",
   },
   {
     picture:
