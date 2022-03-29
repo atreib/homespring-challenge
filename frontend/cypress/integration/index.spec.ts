@@ -71,7 +71,13 @@ describe("Index Test Suite", () => {
     });
   });
 
-  it("Should show the book's rating for each fetched book through stars");
+  it("Should show the book's rating for each fetched book through stars", () => {
+    MOCK_BOOKS.forEach((book) => {
+      cy.get(`div[id^='${book.title.replace(" ", "")}']`).within(() => {
+        cy.get(".text-red-500").should("have.length", book.rating);
+      });
+    });
+  });
 
   it("Should show the book's posting year for each fetched book", () => {
     MOCK_BOOKS.forEach((book) => {
