@@ -31,10 +31,8 @@ const BookCard = ({ book }: BookCardProps) => (
     <div>
       <h2 className="text-xl font-bold text-gray-800">{book.title}</h2>
       <div className="flex space-x-2">
-        {/* Page count */}
         <span>{book.pagesCount > 0 ? book.pagesCount : "#"} pages</span>
 
-        {/* Posting year only if available */}
         {book.postingYear > 0 && (
           <>
             <span>-</span>
@@ -42,7 +40,6 @@ const BookCard = ({ book }: BookCardProps) => (
           </>
         )}
 
-        {/* Publisher */}
         <span>-</span>
         <span>{book.publisher}</span>
       </div>
