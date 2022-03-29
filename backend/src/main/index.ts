@@ -7,7 +7,7 @@ const options = {
     openapi: '3.0.0',
     info: {
       title: 'Homespring Challenge',
-      version: '1.2.8',
+      version: '1.2.9',
       description: 'This is a showcase of a fullstack development',
     },
     servers: [
