@@ -1,22 +1,15 @@
-import { useEffect, useState } from "react";
 import { BookCard } from "../components/domain/books/Card";
 import { ThemeLayout } from "../components/layout/Theme";
-import { Book } from "../models/book";
-import { getBooks } from "../services/books";
-import { Paginated } from "../utils/pagination";
+import { useBooks } from "../hooks/use-books";
 
 const Home = () => {
-  const [books, setBooks] = useState<Paginated<Book>>();
-
-  useEffect(() => {
-    getBooks().then((_books) => setBooks(_books ?? []));
-  }, []);
+  const { books, loading } = useBooks();
 
   return (
     <ThemeLayout>
-      {books?.data.map((book, i) => (
-        <BookCard key={i} book={book} />
-      ))}
+      {loading && <h1>Loading...</h1>}
+      {!loading &&
+        books?.data.map((book, i) => <BookCard key={i} book={book} />)}
     </ThemeLayout>
   );
 };
