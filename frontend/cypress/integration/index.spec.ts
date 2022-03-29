@@ -30,7 +30,11 @@ describe("Index Test Suite", () => {
   });
 
   it("Should show the placeholder if book doesnt have a thumbnail", () => {
-    MOCK_BOOKS.filter((x) => !x).forEach(() => cy.contains("div", "No cover"));
+    MOCK_BOOKS.forEach((_book, index) => {
+      if (MOCK_BOOKS[index].picture === "") {
+        cy.contains("div", "No cover");
+      }
+    });
   });
 
   it("Should show the book's authors for each fetched book", () => {
