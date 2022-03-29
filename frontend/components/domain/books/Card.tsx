@@ -29,6 +29,9 @@ const BookCard = ({ book }: BookCardProps) => (
     </div>
     <div>
       <h2 className="text-xl font-bold text-gray-800">{book.title}</h2>
+      <div className="flex space-x-2">
+        <span>{book.pagesCount} pages</span>
+      </div>
     </div>
   </article>
 );
