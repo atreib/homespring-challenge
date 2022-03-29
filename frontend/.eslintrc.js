@@ -35,6 +35,7 @@ module.exports = {
     "import/no-cycle": [0, { ignoreExternal: true }],
     // needed because of https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-use-before-define.md#how-to-use & https://stackoverflow.com/questions/63818415/react-was-used-before-it-was-defined
     "no-use-before-define": "off",
+    "import/prefer-default-export": "off",
     "@typescript-eslint/no-use-before-define": [
       "error",
       { functions: false, classes: false, variables: true },
