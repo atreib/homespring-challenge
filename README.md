@@ -11,7 +11,7 @@ Every new pull-request (except on `develop` and `master` branches) triggers buil
 
 The Heroku secret is stored in the Github Secrets.
 
-- Staging: https://homespring-challenge-backend.herokuapp.com/
+- Staging: https://homespring-challenge-backend.herokuapp.com/docs/
 
 # References
 
