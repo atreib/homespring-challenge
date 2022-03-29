@@ -7,14 +7,10 @@ describe("Index Test Suite", () => {
         method: "GET",
         url: "/books",
       },
-      MOCK_BOOKS
+      { data: MOCK_BOOKS }
     ).as("getBooks");
 
     cy.visit("http://localhost:3000/");
-  });
-
-  it("Should fetch books on server side", () => {
-    MOCK_BOOKS.forEach((book) => cy.contains(book.title));
   });
 
   it("Should render an h2 with the book's title for each fetched book", () => {
