@@ -20,7 +20,7 @@ const BookCard = ({ book }: BookCardProps) => (
       </div>
     </div>
     <div>
-      <h1 className="text-xl font-bold text-gray-800">{book.title}</h1>
+      <h2 className="text-xl font-bold text-gray-800">{book.title}</h2>
     </div>
   </article>
 );
