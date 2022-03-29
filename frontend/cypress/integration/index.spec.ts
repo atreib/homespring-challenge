@@ -23,11 +23,15 @@ describe("Index Test Suite", () => {
 
   it("Should show the book's thumbnail in an image for each fetched book if exists", () => {
     cy.get("img").each((element, index) => {
-      expect(Cypress.$(element).attr("src")).to.eq(MOCK_BOOKS[index].picture);
+      if (MOCK_BOOKS[index].picture !== "") {
+        expect(Cypress.$(element).attr("src")).to.eq(MOCK_BOOKS[index].picture);
+      }
     });
   });
 
-  it("Should show the placeholder if book doesnt have a thumbnail");
+  it("Should show the placeholder if book doesnt have a thumbnail", () => {
+    MOCK_BOOKS.filter((x) => !x).forEach(() => cy.contains("div", "No cover"));
+  });
 
   it("Should show the book's authors for each fetched book", () => {
     MOCK_BOOKS.forEach((book) =>
@@ -40,6 +44,8 @@ describe("Index Test Suite", () => {
       book.categories.forEach((category) => cy.contains(category))
     );
   });
+
+  it("Should show placeholder if book doesnt have a category");
 
   it("Should show the book's page count for each fetched book");
   it("Should show the book's rating for each fetched book through stars");
