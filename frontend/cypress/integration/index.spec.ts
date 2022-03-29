@@ -86,7 +86,26 @@ describe("Index Test Suite", () => {
       cy.contains("span", book.publisher);
     });
   });
-  it("Should show the book's description for each fetched book");
+
+  it("Should show the book's description for each fetched book", () => {
+    MOCK_BOOKS.forEach((book) => {
+      if (book.description !== "" && book.description.length <= 200)
+        cy.contains("div", book.description);
+    });
+  });
+
+  it("Should show only first 100 chars if the book's description is greater than that", () => {
+    MOCK_BOOKS.forEach((book) => {
+      if (book.description !== "" && book.description.length > 200)
+        cy.contains("div", `${book.description.slice(0, 200).trim()}...`);
+    });
+  });
+
+  it("Should show 'No description' if book's description isnt available", () => {
+    MOCK_BOOKS.forEach((book) => {
+      if (book.description === "") cy.contains("div", "No description");
+    });
+  });
 });
 
 const asModule = {};
