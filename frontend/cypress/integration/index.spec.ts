@@ -44,12 +44,20 @@ describe("Index Test Suite", () => {
   });
 
   it("Should show the book's categories for each fetched book", () => {
-    MOCK_BOOKS.forEach((book) =>
-      book.categories.forEach((category) => cy.contains(category))
-    );
+    MOCK_BOOKS.forEach((book, index) => {
+      if (MOCK_BOOKS[index].categories.length === 0) {
+        book.categories.forEach((category) => cy.contains(category));
+      }
+    });
   });
 
-  it("Should show placeholder if book doesnt have a category");
+  it("Should show placeholder if book doesnt have a category", () => {
+    MOCK_BOOKS.forEach((_book, index) => {
+      if (MOCK_BOOKS[index].categories.length === 0) {
+        cy.contains("No category");
+      }
+    });
+  });
 
   it("Should show the book's page count for each fetched book");
   it("Should show the book's rating for each fetched book through stars");
