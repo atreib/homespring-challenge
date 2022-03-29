@@ -1,5 +1,17 @@
-import { NextPage } from "next";
+import { BookCard } from "../components/domain/books/Card";
+import { ThemeLayout } from "../components/layout/Theme";
+import { useBooks } from "../hooks/use-books";
 
-const Home: NextPage = () => <h1 className="text-red-500">Hello world</h1>;
+const Home = () => {
+  const { books, loading } = useBooks();
+
+  return (
+    <ThemeLayout>
+      {loading && <h1>Loading...</h1>}
+      {!loading &&
+        books?.data.map((book, i) => <BookCard key={i} book={book} />)}
+    </ThemeLayout>
+  );
+};
 
 export default Home;
