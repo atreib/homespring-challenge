@@ -81,7 +81,11 @@ describe("Index Test Suite", () => {
     });
   });
 
-  it("Should show the book's publisher for each fetched book");
+  it("Should show the book's publisher for each fetched book", () => {
+    MOCK_BOOKS.forEach((book) => {
+      cy.contains("span", book.publisher);
+    });
+  });
   it("Should show the book's description for each fetched book");
 });
 
