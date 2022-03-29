@@ -16,7 +16,7 @@ const options = {
         description: 'Localhost environment',
       },
       {
-        url: 'https://homespring-challenge-backend.herokuapp.com:3000',
+        url: 'https://homespring-challenge-backend.herokuapp.com',
         description: 'Staging environment, synced with the branch development',
       },
     ],
