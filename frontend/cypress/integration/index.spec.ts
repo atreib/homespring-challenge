@@ -9,22 +9,38 @@ describe("Index Test Suite", () => {
       },
       MOCK_BOOKS
     ).as("getBooks");
+
+    cy.visit("http://localhost:3000/");
   });
 
   it("Should fetch books on server side", () => {
-    cy.visit("http://localhost:3000/");
     MOCK_BOOKS.forEach((book) => cy.contains(book.title));
   });
 
   it("Should render an h2 with the book's title for each fetched book", () => {
-    cy.visit("http://localhost:3000/");
     MOCK_BOOKS.forEach((book) => cy.contains("h2", book.title));
   });
 
-  it("Should show the book's thumbnail for each fetched book if exists");
+  it("Should show the book's thumbnail in an image for each fetched book if exists", () => {
+    cy.get("img").each((element, index) => {
+      expect(Cypress.$(element).attr("src")).to.eq(MOCK_BOOKS[index].picture);
+    });
+  });
+
   it("Should show the placeholder if book doesnt have a thumbnail");
-  it("Should show the book's authors for each fetched book");
-  it("Should show the book's categories for each fetched book");
+
+  it("Should show the book's authors for each fetched book", () => {
+    MOCK_BOOKS.forEach((book) =>
+      book.authors.forEach((author) => cy.contains(author))
+    );
+  });
+
+  it("Should show the book's categories for each fetched book", () => {
+    MOCK_BOOKS.forEach((book) =>
+      book.categories.forEach((category) => cy.contains(category))
+    );
+  });
+
   it("Should show the book's page count for each fetched book");
   it("Should show the book's rating for each fetched book through stars");
   it("Should show the book's publishing year for each fetched book");
