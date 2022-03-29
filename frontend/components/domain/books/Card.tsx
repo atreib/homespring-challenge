@@ -1,4 +1,5 @@
 /* eslint-disable no-nested-ternary */
+import { StarIcon } from "@heroicons/react/solid";
 import { Book } from "../../../models/book";
 
 interface BookCardProps {
@@ -30,6 +31,20 @@ const BookCard = ({ book }: BookCardProps) => (
     </div>
     <div>
       <h2 className="text-xl font-bold text-gray-800">{book.title}</h2>
+      <div
+        id={`${book.title.replace(" ", "")}-rating`}
+        className="flex py-2 ml-[-4px]"
+      >
+        {[1, 2, 3, 4, 5].map((rating) => (
+          <StarIcon
+            key={rating}
+            className={`
+              w-6 h-6
+              ${rating <= book.rating ? `text-red-500` : `text-gray-500`}
+            `}
+          />
+        ))}
+      </div>
       <div className="flex flex-col md:flex-row md:space-x-8">
         <span>{book.pagesCount > 0 ? book.pagesCount : "#"} pages</span>
         {book.postingYear > 0 && <span>{book.postingYear}</span>}
