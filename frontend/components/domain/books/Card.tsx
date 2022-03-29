@@ -20,7 +20,9 @@ const BookCard = ({ book }: BookCardProps) => (
         <ul className="space-y-1">
           <li>{book.authors.join(", ")}</li>
           <li className="text-sm text-gray-400">
-            {book.categories.join(", ")}
+            {book.categories.length > 0
+              ? book.categories.join(", ")
+              : "No category"}
           </li>
         </ul>
       </div>
