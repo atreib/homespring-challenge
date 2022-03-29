@@ -8,7 +8,13 @@ const BookCard = ({ book }: BookCardProps) => (
   <article className="flex flex-col space-y-4 border-b-2 mb-4 py-4">
     <div className="flex space-x-4 md:space-x-8">
       <div>
-        <img className="w-14" alt={book.title} src={book.picture} />
+        {book.picture !== "" ? (
+          <img className="w-14" alt={book.title} src={book.picture} />
+        ) : (
+          <div className="w-14 h-20 bg-gray-200 flex items-center justify-center text-center">
+            No cover
+          </div>
+        )}
       </div>
       <div className="flex items-center justify-start">
         <ul className="space-y-1">
