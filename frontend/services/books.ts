@@ -18,7 +18,7 @@ export const MOCK_BOOKS: Book[] = [
     authors: ["Daniel Keyes"],
     categories: ["Fiction"],
     title: "Flowers For Algernon",
-    rating: 5,
+    rating: 4,
     pagesCount: 224,
     postingYear: 2012,
     publisher: "Hachette UK",
