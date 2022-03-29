@@ -59,7 +59,12 @@ describe("Index Test Suite", () => {
     });
   });
 
-  it("Should show the book's page count for each fetched book");
+  it("Should show the book's page count for each fetched book", () => {
+    MOCK_BOOKS.forEach((book) => {
+      cy.contains(`${book.pagesCount} pages`);
+    });
+  });
+
   it("Should show the book's rating for each fetched book through stars");
   it("Should show the book's publishing year for each fetched book");
   it("Should show the book's publisher for each fetched book");
