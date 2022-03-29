@@ -1,6 +1,7 @@
 import { IBooksRepository } from '../../contracts/books-repository';
 import { Book } from '../../models/book';
-import { IGetBooksService } from '../../use-cases/books/get';
+import { IGetBooksService, IGetBooksServiceDTO } from '../../use-cases/books/get';
+import { Paginated } from '../../use-cases/pagination';
 
 export class GetBooksService implements IGetBooksService {
   private readonly booksRepository: IBooksRepository;
@@ -9,8 +10,7 @@ export class GetBooksService implements IGetBooksService {
     this.booksRepository = _booksRepository;
   }
 
-  async handle(search?: string): Promise<Book[]> {
-    const query = search ?? 'flowers';
-    return this.booksRepository.get(query);
+  async handle({ search = 'flowers', page = 1, size = 5 }: IGetBooksServiceDTO): Promise<Paginated<Book>> {
+    return this.booksRepository.get(search, page, size);
   }
 }

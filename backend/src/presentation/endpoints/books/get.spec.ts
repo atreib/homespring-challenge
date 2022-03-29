@@ -1,6 +1,7 @@
 import { Book } from '../../../domain/models/book';
-import { IGetBooksService } from '../../../domain/use-cases/books/get';
-import { InternalServerError } from '../../errors';
+import { IGetBooksService, IGetBooksServiceDTO } from '../../../domain/use-cases/books/get';
+import { paginate, Paginated } from '../../../domain/use-cases/pagination';
+import { InternalServerError, InvalidParameter } from '../../errors';
 import { GetBooksEndpoint } from './get';
 
 interface ISutTypes {
@@ -39,8 +40,8 @@ const MOCK_BOOKS: Book[] = [
 
 const makeGetBooksServiceStub = (): IGetBooksService => {
   class GetBooksServiceStub implements IGetBooksService {
-    async handle(): Promise<Book[]> {
-      return new Promise((resolve) => resolve(MOCK_BOOKS));
+    async handle(options: IGetBooksServiceDTO): Promise<Paginated<Book>> {
+      return new Promise((resolve) => resolve(paginate(MOCK_BOOKS, 2, options.page ?? 1, 5)));
     }
   }
   return new GetBooksServiceStub();
@@ -62,7 +63,7 @@ describe('Get Books Endpoint', () => {
 
   it('Should return status 200 with the result from Get Books Service', async () => {
     const { sut, getBooksServiceStub } = makeSut();
-    const expected = await getBooksServiceStub.handle();
+    const expected = await getBooksServiceStub.handle({});
     const result = await sut.handle({});
     expect(result).toEqual({
       status: 200,
@@ -82,6 +83,15 @@ describe('Get Books Endpoint', () => {
     });
   });
 
+  it('Should throw 400 if page size is greater than 40', async () => {
+    const { sut } = makeSut();
+    const result = await sut.handle({ query: { size: 500 } });
+    expect(result).toEqual({
+      status: 400,
+      body: new InvalidParameter('size'),
+    });
+  });
+
   it('Should provide optional search query to Get Books Service', async () => {
     const { sut, getBooksServiceStub } = makeSut();
     const spy = jest.spyOn(getBooksServiceStub, 'handle');
@@ -90,6 +100,28 @@ describe('Get Books Endpoint', () => {
         search: 'mock-search-query',
       },
     });
-    expect(spy).toHaveBeenCalledWith('mock-search-query');
+    expect(spy).toHaveBeenCalledWith({ search: 'mock-search-query' });
+  });
+
+  it('Should provide optional page query to Get Books Service', async () => {
+    const { sut, getBooksServiceStub } = makeSut();
+    const spy = jest.spyOn(getBooksServiceStub, 'handle');
+    await sut.handle({
+      query: {
+        page: 2,
+      },
+    });
+    expect(spy).toHaveBeenCalledWith({ page: 2 });
+  });
+
+  it('Should provide optional size query to Get Books Service', async () => {
+    const { sut, getBooksServiceStub } = makeSut();
+    const spy = jest.spyOn(getBooksServiceStub, 'handle');
+    await sut.handle({
+      query: {
+        size: 5,
+      },
+    });
+    expect(spy).toHaveBeenCalledWith({ size: 5 });
   });
 });

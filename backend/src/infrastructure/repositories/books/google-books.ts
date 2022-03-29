@@ -1,7 +1,9 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios';
 import { IBooksRepository } from '../../../domain/contracts/books-repository';
 import { Book } from '../../../domain/models/book';
+import { paginate, Paginated } from '../../../domain/use-cases/pagination';
 
 export const toBook = (googleBook: any): Book => {
   const postingYear = googleBook.volumeInfo?.publishedDate
@@ -24,18 +26,23 @@ export const toBook = (googleBook: any): Book => {
 export class GoogleBooksRepository implements IBooksRepository {
   private readonly apiKey: string;
 
-  private readonly pageLimit: number;
-
-  constructor(_apiKey: string, _pageLimit: number) {
+  constructor(_apiKey: string) {
     this.apiKey = _apiKey;
-    this.pageLimit = _pageLimit;
   }
 
-  async get(search: string): Promise<Book[]> {
-    const url = `https://www.googleapis.com/books/v1/volumes?q=${search}&key=${this.apiKey}&maxResults=${this.pageLimit}`;
+  async get(search: string, page: number, size: number): Promise<Paginated<Book>> {
+    const startIndex = (page - 1) * size;
+    const url = `https://www.googleapis.com/books/v1/volumes?q=${search}&startIndex=${startIndex}&key=${this.apiKey}&maxResults=${size}`;
     const { data } = await axios.get(url);
-    return data?.items && Array.isArray(data?.items) && data?.items.length > 0
-      ? data.items.map((book: any) => toBook(book))
-      : [];
+    const { items, totalItems } = data ?? { items: undefined, totalItems: 0 };
+
+    return items && Array.isArray(items) && items.length > 0
+      ? paginate(
+        items.map((book: any) => toBook(book)),
+        totalItems,
+        page,
+        size,
+      )
+      : paginate([], 0, 1, size);
   }
 }

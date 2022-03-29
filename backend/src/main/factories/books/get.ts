@@ -5,8 +5,7 @@ import { IHttpService } from '../../../presentation/protocols/http';
 
 export const makeGetBooksEndpoint = (): IHttpService => {
   const apiKey = process.env.GOOGLE_BOOKS_API_KEY ?? 'invalid-key';
-  const pageLimit = 5;
-  const repository = new GoogleBooksRepository(apiKey, pageLimit);
+  const repository = new GoogleBooksRepository(apiKey);
   const service = new GetBooksService(repository);
   const endpoint = new GetBooksEndpoint(service);
   return endpoint;
