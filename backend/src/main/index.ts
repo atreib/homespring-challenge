@@ -27,7 +27,7 @@ const options = {
 const swaggerSpec = swaggerJsdoc(options);
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
   // eslint-disable-next-line no-console
   console.log(`Homespring Challenge listening on port ${port}`);
