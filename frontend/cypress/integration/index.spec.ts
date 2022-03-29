@@ -61,7 +61,13 @@ describe("Index Test Suite", () => {
 
   it("Should show the book's page count for each fetched book", () => {
     MOCK_BOOKS.forEach((book) => {
-      cy.contains(`${book.pagesCount} pages`);
+      if (book.pagesCount > 0) cy.contains(`${book.pagesCount} pages`);
+    });
+  });
+
+  it("Should show # if book's page is lesser than or equal to 0", () => {
+    MOCK_BOOKS.forEach((book) => {
+      if (book.pagesCount <= 0) cy.contains(`# pages`);
     });
   });
 
