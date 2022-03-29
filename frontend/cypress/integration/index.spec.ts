@@ -16,7 +16,11 @@ describe("Index Test Suite", () => {
     MOCK_BOOKS.forEach((book) => cy.contains(book.title));
   });
 
-  it("Should show the book's title for each fetched book");
+  it("Should render an h2 with the book's title for each fetched book", () => {
+    cy.visit("http://localhost:3000/");
+    MOCK_BOOKS.forEach((book) => cy.contains("h2", book.title));
+  });
+
   it("Should show the book's thumbnail for each fetched book if exists");
   it("Should show the placeholder if book doesnt have a thumbnail");
   it("Should show the book's authors for each fetched book");
