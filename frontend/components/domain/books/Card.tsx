@@ -38,6 +38,9 @@ const BookCard = ({ book }: BookCardProps) => (
             <span>{book.postingYear}</span>
           </>
         )}
+
+        <span>-</span>
+        <span>{book.publisher}</span>
       </div>
     </div>
   </article>
