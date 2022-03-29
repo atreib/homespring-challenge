@@ -41,7 +41,7 @@ After you've developed our task and you think it's ready to go, you must create 
 - All items from the done criteria (see more below) must be checked
 - Your pull-request must follow the GitFlow, as shown in the Branch Management topic
 
-### Done criteria
+### Done criteria for backend
 
 As said before, your pull-request must check all items from the done criteria in order to be ready to be reviewed.
 
@@ -51,4 +51,14 @@ As said before, your pull-request must check all items from the done criteria in
 - [ ] New tests were created in order to cover this branch's development (at least 60% of coverage)
 - [ ] The documentation was updated
 - [ ] The Swagger documentation was updated
+- [ ] I've provided every information required in order to review this pull-request
+
+### Done criteria for frontend
+
+As said before, your pull-request must check all items from the done criteria in order to be ready to be reviewed.
+
+- [ ] The app's version was increased on package.json
+- [ ] All the automated tests were run and are passing
+- [ ] New tests were created in order to cover this branch's development (at least 60% of coverage)
+- [ ] The documentation was updated
 - [ ] I've provided every information required in order to review this pull-request
