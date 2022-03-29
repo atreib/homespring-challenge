@@ -30,17 +30,9 @@ const BookCard = ({ book }: BookCardProps) => (
     </div>
     <div>
       <h2 className="text-xl font-bold text-gray-800">{book.title}</h2>
-      <div className="flex space-x-2">
+      <div className="flex flex-col md:flex-row md:space-x-8">
         <span>{book.pagesCount > 0 ? book.pagesCount : "#"} pages</span>
-
-        {book.postingYear > 0 && (
-          <>
-            <span>-</span>
-            <span>{book.postingYear}</span>
-          </>
-        )}
-
-        <span>-</span>
+        {book.postingYear > 0 && <span>{book.postingYear}</span>}
         <span>{book.publisher}</span>
       </div>
       <div className="pt-4 pb-2">
